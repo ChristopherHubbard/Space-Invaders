@@ -21,18 +21,6 @@ class WindowGraphics
                 //Call the defender's fire method
                 player.Fire();
             }
-            //Move the defender to the left
-            else if (event.getCode() == KeyCode.LEFT)
-            {
-                //Decrease the location of the player
-                player.Location(player.Location() - 1);
-            }
-            //Move the defender to the right
-            else if (event.getCode() == KeyCode.RIGHT)
-            {
-                //Increase the location of the player
-                player.Location(player.Location() - 1);
-            }
         });
 
         //Reset firing when space bar released

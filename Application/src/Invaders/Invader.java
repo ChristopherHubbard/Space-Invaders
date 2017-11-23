@@ -1,32 +1,20 @@
 package Invaders;
 
-import java.util.Random;
+import Common.Sprite;
 
-public class Invader
+public class Invader extends Sprite
 {
-    private final static int BOUND = 50;
+    private final static int HIT_VAL = 5;
 
-    private int x;
-    private int y;
-
-    private int speed;
-    private boolean canFire = false;
-    private boolean firedThisRound = false;
-    private boolean dead = false;
+    private Bomb bomb;
 
     public Invader(int x, int y, int speed)
     {
+        this.InitializeImage("src/images/invader.png", null, null);
         this.x = x;
         this.y = y;
+        this.bomb = new Bomb(x, y, this);
         this.speed = speed;
-    }
-
-    public void Fire(int randNum)
-    {
-        if(this.canFire && !this.firedThisRound && randNum > BOUND)
-        {
-            //Fire
-        }
     }
 
     public void MoveHorizontal(int direction)
@@ -34,4 +22,8 @@ public class Invader
         this.x += direction * this.speed;
     }
 
+    public Bomb Bomb()
+    {
+        return this.bomb;
+    }
 }
