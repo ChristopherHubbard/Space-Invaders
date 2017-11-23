@@ -16,6 +16,8 @@ public class Sprite
     protected int y;
     protected int speed;
 
+    public static boolean threadActive = true;
+
     public Sprite()
     {
         this.visible = true;
@@ -31,6 +33,16 @@ public class Sprite
         return this.y;
     }
 
+    public void X(int x)
+    {
+        this.x = x;
+    }
+
+    public void Y(int y)
+    {
+        this.y = y;
+    }
+
     public boolean Visible()
     {
         return visible;
@@ -39,6 +51,16 @@ public class Sprite
     public void Visible(boolean visible)
     {
         this.visible = visible;
+    }
+
+    public int ImageWidth()
+    {
+        return this.imageWidth;
+    }
+
+    public int ImageHeight()
+    {
+        return this.imageHeight;
     }
 
     protected void InitializeImage(String imagePath, ImageObserver heightObserver, ImageObserver widthObserver)
@@ -52,14 +74,7 @@ public class Sprite
     public boolean Collision(Sprite sprite)
     {
         //Check if the two sprites have collided
-        if(this.visible && sprite.visible && this.x >= sprite.x && this.x <= (sprite.x + sprite.imageWidth) && this.y >= sprite.y && this.y <= (sprite.y + sprite.imageHeight))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return this.visible && sprite.visible && this.x >= sprite.x && this.x <= (sprite.x + sprite.imageWidth) && this.y >= sprite.y && this.y <= (sprite.y + sprite.imageHeight);
     }
 
 }

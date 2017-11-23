@@ -2,7 +2,7 @@ package Invaders;
 
 import Common.Sprite;
 import Player.Defender;
-import SpaceInvaders.GameConstants;
+import Common.GameConstants;
 
 import java.util.Random;
 
@@ -13,6 +13,13 @@ public class Bomb extends Sprite
 
     private Invader owner;
 
+    private static Defender enemy;
+
+    public static void Enemy(Defender enemy)
+    {
+        Bomb.enemy = enemy;
+    }
+
     public Bomb(int x, int y, Invader owner)
     {
         this.owner = owner;
@@ -22,7 +29,7 @@ public class Bomb extends Sprite
         this.Visible(false);
     }
 
-    public void Fire(Defender defender)
+    public void Fire()
     {
         //Create a random number in the range to limit (value indicating "rate of fire")
         Random random = new Random();
@@ -38,9 +45,9 @@ public class Bomb extends Sprite
         }
 
         //Check for collision with the defender
-        if(defender.Visible() && this.Visible() && this.Collision(defender))
+        if(Bomb.enemy.Visible() && this.Visible() && this.Collision(Bomb.enemy))
         {
-            defender.Visible(false);
+            Bomb.enemy.Hit();
             this.Visible(false);
         }
         //Move the bomb down
@@ -54,6 +61,11 @@ public class Bomb extends Sprite
                 this.Visible(false);
             }
         }
+    }
+
+    public static void Limit(int limit)
+    {
+        Bomb.limit = limit;
     }
 
 }

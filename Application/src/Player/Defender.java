@@ -1,11 +1,14 @@
 package Player;
 
 import Common.Sprite;
-import SpaceInvaders.GameConstants;
+import Common.GameConstants;
+import Invaders.Invader;
+import java.util.List;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class Defender extends Sprite
+public class Defender extends Sprite implements KeyListener, Runnable
 {
     //Starting X and Y positions for the defender
     private final int START_X = 270;
@@ -16,13 +19,18 @@ public class Defender extends Sprite
     //Laser for the Defender to fire
     private Laser laser;
 
-    public Defender(int numLives)
+    public Laser Laser()
+    {
+        return this.laser;
+    }
+
+    public Defender(int numLives, List<Invader> invaders)
     {
         this.InitializeImage("src/images/defender.png", null, null);
         this.numLives = numLives;
         this.x = START_X;
         this.y = START_Y;
-        this.laser = new Laser(this.x, this.y);
+        this.laser = new Laser(this.x, this.y, invaders);
     }
 
     public boolean Lost()
@@ -53,18 +61,23 @@ public class Defender extends Sprite
         }
     }
 
-    public void KeyPressed(KeyEvent e)
+    @Override
+    public void keyTyped(KeyEvent e)
+    {
+        //Nothing to do here!
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e)
     {
         //Move in the appropriate direction
         if(e.getKeyCode() == KeyEvent.VK_LEFT)
         {
             this.speed = -2;
-            return;
         }
         else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
         {
             this.speed = 2;
-            return;
         }
         //Check to see if the laser is firing
         else if(!this.laser.Visible())
@@ -73,12 +86,23 @@ public class Defender extends Sprite
         }
     }
 
-    public void KeyReleased(KeyEvent e)
+    @Override
+    public void keyReleased(KeyEvent e)
     {
         //If the left or right button was pressed -- set speed to zero
         if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT)
         {
             this.speed = 0;
+        }
+    }
+
+    //Run method to check to movement of the defender
+    @Override
+    public void run()
+    {
+        while(Sprite.threadActive)
+        {
+            this.Move();
         }
     }
 }

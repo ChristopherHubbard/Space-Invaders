@@ -1,6 +1,7 @@
 package Invaders;
 
 import Common.Sprite;
+import Player.Defender;
 
 public class Invader extends Sprite
 {

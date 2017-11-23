@@ -6,13 +6,16 @@ import Invaders.Invader;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
-public class Laser extends Sprite
+public class Laser extends Sprite implements Runnable
 {
     private final int HORIZONTAL_PADDING = 6;
     private final int VERTICAL_PADDING = 1;
 
-    public Laser(int x, int y)
+    private List<Invader> invaders;
+
+    public Laser(int x, int y, List<Invader> invaders)
     {
+        this.invaders = invaders;
         this.InitializeImage("src/images/laser.png", null, null);
 
         this.x = x + HORIZONTAL_PADDING;
@@ -31,20 +34,20 @@ public class Laser extends Sprite
         }
     }
 
-    public void Fire(List<Invader> invaders)
+    public void Fire()
     {
         //If the shot is being fired
         if(this.Visible())
         {
             //Check if any of the aliens have been hit
-            for (Invader invader : invaders)
+            for (Invader invader : this.invaders)
             {
                 //Make sure that the invader is active and the shot is still visible -- check for collision
                 if(invader.Visible() && this.Visible() && this.Collision(invader))
                 {
                     //Remove the invader visibility and from the invaders container
                     invader.Visible(false);
-                    invaders.remove(invader);
+                    this.invaders.remove(invader);
                     this.Visible(false);
                 }
 
@@ -57,6 +60,16 @@ public class Laser extends Sprite
             {
                 this.Visible(false);
             }
+        }
+    }
+
+    //Run method to call Fire
+    @Override
+    public void run()
+    {
+        while(Sprite.threadActive)
+        {
+            this.Fire();
         }
     }
 }

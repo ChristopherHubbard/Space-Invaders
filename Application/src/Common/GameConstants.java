@@ -1,4 +1,4 @@
-package SpaceInvaders;
+package Common;
 
 public interface GameConstants
 {
