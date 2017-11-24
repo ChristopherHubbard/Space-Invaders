@@ -23,7 +23,7 @@ public class Bomb extends Sprite
     public Bomb(int x, int y, Invader owner)
     {
         this.owner = owner;
-        this.InitializeImage("Application/images/bomb.jpg", null, null);
+        this.InitializeImage("Application/images/bomb.png", null, null);
         this.x = x;
         this.y = y;
         this.Visible(false);

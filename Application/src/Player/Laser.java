@@ -69,6 +69,7 @@ public class Laser extends Sprite implements Runnable
     {
         while(Sprite.threadActive)
         {
+            Sprite.Delay();
             this.Fire();
         }
     }

@@ -48,12 +48,12 @@ public class Sprite
         this.y = y;
     }
 
-    public boolean Visible()
+    public synchronized boolean Visible()
     {
         return visible;
     }
 
-    public void Visible(boolean visible)
+    public synchronized void Visible(boolean visible)
     {
         this.visible = visible;
     }
@@ -87,6 +87,18 @@ public class Sprite
         if(this.visible)
         {
             graphics.drawImage(this.image, this.x, this.y, observer);
+        }
+    }
+
+    public static void Delay()
+    {
+        try
+        {
+            Thread.sleep(GameConstants.DELAY);
+        }
+        catch(InterruptedException e)
+        {
+            System.out.println("Interrupted!!");
         }
     }
 

@@ -114,7 +114,9 @@ public class Defender extends Sprite implements KeyListener, Runnable
     {
         while(Sprite.threadActive)
         {
+            Sprite.Delay();
             this.Move();
+            this.laser.Fire();
         }
     }
 }

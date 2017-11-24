@@ -24,7 +24,6 @@ public class Game extends JFrame
         this.setLocationRelativeTo(null);
         //Resizing is a pain :)
         this.setResizable(false);
-        this.setVisible(true);
 
         //Add the game!
         this.add(new WindowGraphics(Game.numRowsInvaders, Game.numColsInvaders, Game.numLivesDefenders, Game.bombLimit, Game.speed));
@@ -35,7 +34,8 @@ public class Game extends JFrame
         //Set the game creation to process at the end of Swing's GUI thread
         EventQueue.invokeLater(() ->
         {
-            new Game();
+            Game game = new Game();
+            game.setVisible(true);
         });
     }
 

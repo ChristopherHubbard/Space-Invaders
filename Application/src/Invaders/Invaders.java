@@ -129,6 +129,8 @@ public class Invaders implements Runnable
         //Run while the game is active
         while(Sprite.threadActive)
         {
+            //Add a delay
+            Sprite.Delay();
             this.Move();
             this.InvasionStatus();
             this.FireBombs();

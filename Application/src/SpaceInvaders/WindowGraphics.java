@@ -47,7 +47,7 @@ public class WindowGraphics extends JPanel implements Runnable
         threadList.add(new Thread(this));
         threadList.add(new Thread(this.invaders));
         threadList.add(new Thread(this.defender));
-        threadList.add(new Thread(this.defender.Laser()));
+        //threadList.add(new Thread(this.defender.Laser()));
 
         //Start all the threads
         for(Thread thread : threadList)
@@ -56,20 +56,6 @@ public class WindowGraphics extends JPanel implements Runnable
         }
 
         //Wait for the threads to join?
-        for(Thread thread : threadList)
-        {
-            try
-            {
-               thread.join();
-            }
-            catch(InterruptedException e)
-            {
-                System.out.println(e.getMessage());
-            }
-        }
-
-        //All the threads are joined here -- end the game
-        DrawEndOfGame();
     }
 
     public void DrawEndOfGame()
@@ -147,5 +133,6 @@ public class WindowGraphics extends JPanel implements Runnable
 
         //End all the other threads
         Sprite.threadActive = false;
+        this.DrawEndOfGame();
     }
 }
