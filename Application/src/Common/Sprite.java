@@ -1,7 +1,7 @@
 package Common;
 
 import javax.swing.*;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.image.ImageObserver;
 
 public class Sprite
@@ -21,6 +21,11 @@ public class Sprite
     public Sprite()
     {
         this.visible = true;
+    }
+
+    public Image Image()
+    {
+        return this.image;
     }
 
     public int X()
@@ -75,6 +80,14 @@ public class Sprite
     {
         //Check if the two sprites have collided
         return this.visible && sprite.visible && this.x >= sprite.x && this.x <= (sprite.x + sprite.imageWidth) && this.y >= sprite.y && this.y <= (sprite.y + sprite.imageHeight);
+    }
+
+    public void DrawSprite(Graphics graphics, ImageObserver observer)
+    {
+        if(this.visible)
+        {
+            graphics.drawImage(this.image, this.x, this.y, observer);
+        }
     }
 
 }

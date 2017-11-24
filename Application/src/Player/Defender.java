@@ -3,10 +3,13 @@ package Player;
 import Common.Sprite;
 import Common.GameConstants;
 import Invaders.Invader;
+
+import java.awt.image.ImageObserver;
 import java.util.List;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.*;
 
 public class Defender extends Sprite implements KeyListener, Runnable
 {
@@ -26,7 +29,7 @@ public class Defender extends Sprite implements KeyListener, Runnable
 
     public Defender(int numLives, List<Invader> invaders)
     {
-        this.InitializeImage("src/images/defender.png", null, null);
+        this.InitializeImage("Application/images/defender.png", null, null);
         this.numLives = numLives;
         this.x = START_X;
         this.y = START_Y;
@@ -58,6 +61,15 @@ public class Defender extends Sprite implements KeyListener, Runnable
         else if (this.x >= GameConstants.SCREEN_WIDTH - 2 * this.imageWidth)
         {
             this.x = GameConstants.SCREEN_WIDTH - 2 * this.imageWidth;
+        }
+    }
+
+    public void DrawDefender(Graphics graphics, ImageObserver observer)
+    {
+        if(this.Visible())
+        {
+            this.DrawSprite(graphics, observer);
+            this.laser.DrawSprite(graphics, observer);
         }
     }
 

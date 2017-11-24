@@ -2,10 +2,10 @@ package Invaders;
 
 import Common.GameConstants;
 import Common.Sprite;
-import Player.Defender;
 
+import java.awt.*;
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Invaders implements Runnable
@@ -109,6 +109,17 @@ public class Invaders implements Runnable
             {
                 invader.Bomb().Fire();
             }
+        }
+    }
+
+    public void DrawInvaders(Graphics graphics, ImageObserver observer)
+    {
+        //For each of the invaders
+        for(Invader invader : this.invaders)
+        {
+            //Draw the invader and draw the bomb
+            invader.DrawSprite(graphics, observer);
+            invader.Bomb().DrawSprite(graphics, observer);
         }
     }
 

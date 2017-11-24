@@ -11,7 +11,7 @@ public class Invader extends Sprite
 
     public Invader(int x, int y, int speed)
     {
-        this.InitializeImage("src/images/invader.png", null, null);
+        this.InitializeImage("Application/images/invader.jpg", null, null);
         this.x = x;
         this.y = y;
         this.bomb = new Bomb(x, y, this);

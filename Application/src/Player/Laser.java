@@ -16,7 +16,7 @@ public class Laser extends Sprite implements Runnable
     public Laser(int x, int y, List<Invader> invaders)
     {
         this.invaders = invaders;
-        this.InitializeImage("src/images/laser.png", null, null);
+        this.InitializeImage("Application/images/laser.png", null, null);
 
         this.x = x + HORIZONTAL_PADDING;
         this.y = y - VERTICAL_PADDING;
