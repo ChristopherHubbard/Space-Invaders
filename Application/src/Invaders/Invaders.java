@@ -20,6 +20,7 @@ public class Invaders implements Runnable
 
     private List<Invader> invaders;
     private static boolean invaded = false;
+    private int count;
 
     public List<Invader> InvaderList()
     {
@@ -29,6 +30,16 @@ public class Invaders implements Runnable
     public static boolean Invaded()
     {
         return Invaders.invaded;
+    }
+
+    public int Count()
+    {
+        return this.count;
+    }
+
+    public void Count(int count)
+    {
+        this.count = count;
     }
 
     public Invaders(int numRows, int numCols, int speed)
@@ -44,31 +55,25 @@ public class Invaders implements Runnable
             for(int j = 0; j < numCols; j++)
             {
                 //Create an invader in the appropriate position
-                Invader invader = new Invader(Invaders.INITIAL_X + 18 * j, Invaders.INITIAL_Y + 18 * i, speed);
+                Invader invader = new Invader(Invaders.INITIAL_X + 25 * j, Invaders.INITIAL_Y + 25 * i, speed);
+                invader.Row(i);
+                invader.Column(j);
+                //Add the invader to the invader list
                 this.invaders.add(invader);
             }
         }
+        //Set the number of invaders
+        this.count = this.invaders.size();
     }
 
     public void Move()
     {
         for (Invader invader : this.invaders)
         {
-            if(invader.X() >= GameConstants.SCREEN_WIDTH - GameConstants.RIGHT_BORDER && this.direction != -1)
+            if((invader.X() >= GameConstants.SCREEN_WIDTH - GameConstants.RIGHT_BORDER && this.direction != -1) || (invader.X() <= GameConstants.LEFT_BORDER && this.direction != 1))
             {
                 //Change the direction of the invaders
-                this.direction = -1;
-
-                //Move all the invaders down
-                for(Invader nextInvader : this.invaders)
-                {
-                    nextInvader.Y(nextInvader.Y() + GameConstants.DOWN);
-                }
-            }
-            else if(invader.X() <= GameConstants.LEFT_BORDER && this.direction != 1)
-            {
-                //Change the direction of the invaders
-                this.direction = 1;
+                this.direction = -this.direction;
 
                 //Move all the invaders down
                 for(Invader nextInvader : this.invaders)
@@ -105,9 +110,31 @@ public class Invaders implements Runnable
         //Try to fire bombs for all invaders -- may need to update so only fire when no one below the invader
         for(Invader invader : this.invaders)
         {
-            if(invader.Visible())
+            if(invader.Visible() || invader.Bomb().Visible())
             {
                 invader.Bomb().Fire();
+            }
+        }
+    }
+
+    public void UpdateBehindInvader()
+    {
+        //Update for all the invaders
+        for(Invader invader : this.invaders)
+        {
+            if(invader.Visible())
+            {
+                boolean behind = false;
+                for(Invader ahead : this.invaders)
+                {
+                    if(ahead.Visible() && invader.X() == ahead.X() && invader.Y() < ahead.Y())
+                    {
+                        behind = true;
+                    }
+                }
+
+                //Set the behind variable
+                invader.BehindInvader(behind);
             }
         }
     }
@@ -133,6 +160,7 @@ public class Invaders implements Runnable
             Sprite.Delay();
             this.Move();
             this.InvasionStatus();
+            this.UpdateBehindInvader();
             this.FireBombs();
         }
     }

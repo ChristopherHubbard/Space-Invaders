@@ -2,7 +2,7 @@ package Player;
 
 import Common.Sprite;
 import Common.GameConstants;
-import Invaders.Invader;
+import Invaders.Invaders;
 
 import java.awt.image.ImageObserver;
 import java.util.List;
@@ -14,8 +14,8 @@ import java.awt.*;
 public class Defender extends Sprite implements KeyListener, Runnable
 {
     //Starting X and Y positions for the defender
-    private final int START_X = 270;
-    private final int START_Y = 280;
+    private final int START_X = 380;
+    private final int START_Y = 380;
 
     //Number of lives for the defender (selected in menu)
     private int numLives;
@@ -27,7 +27,7 @@ public class Defender extends Sprite implements KeyListener, Runnable
         return this.laser;
     }
 
-    public Defender(int numLives, List<Invader> invaders)
+    public Defender(int numLives, Invaders invaders)
     {
         this.InitializeImage("Application/images/defender.png", null, null);
         this.numLives = numLives;

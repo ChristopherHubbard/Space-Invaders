@@ -3,7 +3,6 @@ package SpaceInvaders;
 import Common.GameConstants;
 import Common.Sprite;
 import Invaders.Invaders;
-import Invaders.Invader;
 import Player.Defender;
 import Invaders.Bomb;
 
@@ -32,7 +31,7 @@ public class WindowGraphics extends JPanel implements Runnable
 
         //Initialize the game components and events
         this.invaders = new Invaders(numRowsInvaders, numColsInvaders, speed);
-        this.defender = new Defender(numLivesDefender, this.invaders.InvaderList());
+        this.defender = new Defender(numLivesDefender, this.invaders);
         Bomb.Limit(bombLimit);
         Bomb.Enemy(this.defender);
         this.addKeyListener(this.defender);
@@ -47,7 +46,6 @@ public class WindowGraphics extends JPanel implements Runnable
         threadList.add(new Thread(this));
         threadList.add(new Thread(this.invaders));
         threadList.add(new Thread(this.defender));
-        //threadList.add(new Thread(this.defender.Laser()));
 
         //Start all the threads
         for(Thread thread : threadList)
@@ -70,8 +68,9 @@ public class WindowGraphics extends JPanel implements Runnable
         graphics.setColor(Color.white);
         graphics.drawRect(50, GameConstants.SCREEN_WIDTH / 2 - 30, GameConstants.SCREEN_WIDTH - 100, 50);
 
-        graphics.setFont(new Font("Helvetica", Font.BOLD, 16));
-        FontMetrics metrics = this.getFontMetrics(Font.getFont("Helvetica"));
+        Font font = new Font("Helvetica", Font.BOLD, 16);
+        graphics.setFont(font);
+        FontMetrics metrics = this.getFontMetrics(font);
 
         graphics.setColor(Color.WHITE);
         graphics.drawString(this.endMessage, (GameConstants.SCREEN_WIDTH - metrics.stringWidth(this.endMessage)) / 2, GameConstants.SCREEN_WIDTH / 2);
@@ -108,7 +107,7 @@ public class WindowGraphics extends JPanel implements Runnable
         {
             this.repaint();
 
-            if(this.invaders.InvaderList().size() == 0)
+            if(this.invaders.Count() == 0)
             {
                 Sprite.threadActive = false;
                 this.playing = false;

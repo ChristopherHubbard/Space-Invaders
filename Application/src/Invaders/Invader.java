@@ -1,13 +1,15 @@
 package Invaders;
 
 import Common.Sprite;
-import Player.Defender;
 
 public class Invader extends Sprite
 {
-    private final static int HIT_VAL = 5;
-
     private Bomb bomb;
+
+    private boolean behindInvader = true;
+
+    private int row;
+    private int column;
 
     public Invader(int x, int y, int speed)
     {
@@ -26,5 +28,25 @@ public class Invader extends Sprite
     public Bomb Bomb()
     {
         return this.bomb;
+    }
+
+    public boolean BehindInvader()
+    {
+        return this.behindInvader;
+    }
+
+    public void BehindInvader(boolean behindInvader)
+    {
+        this.behindInvader = behindInvader;
+    }
+
+    public void Row(int row)
+    {
+        this.row = row;
+    }
+
+    public void Column(int column)
+    {
+        this.column = column;
     }
 }

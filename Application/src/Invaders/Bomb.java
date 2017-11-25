@@ -36,7 +36,7 @@ public class Bomb extends Sprite
         int randNum = random.nextInt(limit);
 
         //Check to see if this bomb is dropped
-        if(!this.Visible() && randNum == HIT_VAL)
+        if(!owner.BehindInvader() && !this.Visible() && randNum == HIT_VAL)
         {
             //Set this bomb to visible
             this.Visible(true);

@@ -1,19 +1,17 @@
 package SpaceInvaders;
 
-//import javafx.application.Application;
 import Common.GameConstants;
-import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class Game extends JFrame
 {
-    public static int numRowsInvaders = 4;
-    public static int numColsInvaders = 6;
+    public static int numRowsInvaders = 5;
+    public static int numColsInvaders = 5;
     public static int numLivesDefenders = 3;
-    public static int bombLimit = 15;
-    public static int speed = 1;
+    public static int bombLimit = 10;
+    public static int speed = 2;
 
     public Game()
     {

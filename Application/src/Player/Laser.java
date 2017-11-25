@@ -2,18 +2,18 @@ package Player;
 
 import Common.Sprite;
 import Invaders.Invader;
+import Invaders.Invaders;
 
 import java.awt.event.KeyEvent;
-import java.util.List;
 
 public class Laser extends Sprite implements Runnable
 {
     private final int HORIZONTAL_PADDING = 6;
     private final int VERTICAL_PADDING = 1;
 
-    private List<Invader> invaders;
+    private Invaders invaders;
 
-    public Laser(int x, int y, List<Invader> invaders)
+    public Laser(int x, int y, Invaders invaders)
     {
         this.invaders = invaders;
         this.InitializeImage("Application/images/laser.png", null, null);
@@ -40,14 +40,15 @@ public class Laser extends Sprite implements Runnable
         if(this.Visible())
         {
             //Check if any of the aliens have been hit
-            for (Invader invader : this.invaders)
+            for (Invader invader : this.invaders.InvaderList())
             {
                 //Make sure that the invader is active and the shot is still visible -- check for collision
                 if(invader.Visible() && this.Visible() && this.Collision(invader))
                 {
                     //Remove the invader visibility and from the invaders container
                     invader.Visible(false);
-                    this.invaders.remove(invader);
+                    this.invaders.UpdateBehindInvader();
+                    this.invaders.Count(this.invaders.Count() - 1);
                     this.Visible(false);
                 }
 
