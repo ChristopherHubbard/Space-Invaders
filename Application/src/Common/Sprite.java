@@ -3,6 +3,7 @@ package Common;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.ImageObserver;
+import java.util.concurrent.TimeUnit;
 
 public class Sprite
 {
@@ -15,6 +16,8 @@ public class Sprite
     protected int x;
     protected int y;
     protected int speed;
+
+    protected boolean damaged = false;
 
     public static boolean threadActive = true;
 
@@ -68,6 +71,16 @@ public class Sprite
         return this.imageHeight;
     }
 
+    public boolean Damaged()
+    {
+        return this.damaged;
+    }
+
+    public void Damaged(boolean damaged)
+    {
+        this.damaged = damaged;
+    }
+
     protected void InitializeImage(String imagePath, ImageObserver heightObserver, ImageObserver widthObserver)
     {
         this.imagePath = imagePath;
@@ -100,6 +113,31 @@ public class Sprite
         {
             System.out.println("Interrupted!!");
         }
+    }
+
+    public void Wait(int numMilli)
+    {
+        try
+        {
+            TimeUnit.MILLISECONDS.sleep(numMilli);
+        }
+        catch (InterruptedException e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void Blink(int numBlinks)
+    {
+        for(int i = 0; i < numBlinks; i++)
+        {
+            this.Visible(false);
+            this.Wait(500);
+            this.Visible(true);
+            this.Wait(100);
+
+        }
+        this.damaged = false;
     }
 
 }

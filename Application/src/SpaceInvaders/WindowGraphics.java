@@ -1,5 +1,6 @@
 package SpaceInvaders;
 
+import Barriers.Barriers;
 import Common.GameConstants;
 import Common.Sprite;
 import Invaders.Invaders;
@@ -17,6 +18,7 @@ public class WindowGraphics extends JPanel implements Runnable
 
     private Invaders invaders;
     private Defender defender;
+    private Barriers barriers;
 
     private boolean playing = true;
     private String endMessage;
@@ -32,8 +34,12 @@ public class WindowGraphics extends JPanel implements Runnable
         //Initialize the game components and events
         this.invaders = new Invaders(numRowsInvaders, numColsInvaders, speed);
         this.defender = new Defender(numLivesDefender, this.invaders);
+        this.barriers = new Barriers();
+
         Bomb.Limit(bombLimit);
         Bomb.Enemy(this.defender);
+        Bomb.Barriers(this.barriers);
+
         this.addKeyListener(this.defender);
 
         //Make the game visible
@@ -93,6 +99,8 @@ public class WindowGraphics extends JPanel implements Runnable
             graphics.drawLine(0, GameConstants.GROUND, GameConstants.SCREEN_WIDTH, GameConstants.GROUND);
             this.defender.DrawDefender(graphics, this);
             this.invaders.DrawInvaders(graphics, this);
+            this.barriers.DrawBarriers(graphics, this);
+
         }
 
         //Cleanup -- ensure that the buffer is up to date and then release resources

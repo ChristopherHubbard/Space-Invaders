@@ -1,5 +1,9 @@
 package Invaders;
 
+import Barriers.Barrier;
+import Barriers.Barriers;
+import Barriers.BarrierBlock;
+
 import Common.Sprite;
 import Player.Defender;
 import Common.GameConstants;
@@ -14,6 +18,8 @@ public class Bomb extends Sprite
     private Invader owner;
 
     private static Defender enemy;
+
+    private static Barriers barriers;
 
     public static void Enemy(Defender enemy)
     {
@@ -60,12 +66,33 @@ public class Bomb extends Sprite
             {
                 this.Visible(false);
             }
+            //Check for collision with the barriers
+            for(Barrier barrier : Bomb.barriers.Barriers())
+            {
+                for(BarrierBlock block : barrier.BarrierBlocks())
+                {
+                    if(this.Collision(block))
+                    {
+                        block.Visible(false);
+                        //Removal could cause Comodification issue
+                        block.Damaged(true);
+                        this.Visible(false);
+                        //May not need this return
+                        return;
+                    }
+                }
+            }
         }
     }
 
     public static void Limit(int limit)
     {
         Bomb.limit = limit;
+    }
+
+    public static void Barriers(Barriers barriers)
+    {
+        Bomb.barriers = barriers;
     }
 
 }

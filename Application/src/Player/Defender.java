@@ -5,7 +5,6 @@ import Common.GameConstants;
 import Invaders.Invaders;
 
 import java.awt.image.ImageObserver;
-import java.util.List;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -46,6 +45,11 @@ public class Defender extends Sprite implements KeyListener, Runnable
     {
         //Decrease the number of lives if hit
         this.numLives--;
+        //Oscillate visible and not if the number of lives is greater than zero
+        if(this.numLives > 0)
+        {
+            this.damaged = true;
+        }
     }
 
     public void Move()
@@ -83,11 +87,11 @@ public class Defender extends Sprite implements KeyListener, Runnable
     public void keyPressed(KeyEvent e)
     {
         //Move in the appropriate direction
-        if(e.getKeyCode() == KeyEvent.VK_LEFT)
+        if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A)
         {
             this.speed = -2;
         }
-        else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
+        else if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D)
         {
             this.speed = 2;
         }
@@ -102,7 +106,7 @@ public class Defender extends Sprite implements KeyListener, Runnable
     public void keyReleased(KeyEvent e)
     {
         //If the left or right button was pressed -- set speed to zero
-        if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT)
+        if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D)
         {
             this.speed = 0;
         }
@@ -117,6 +121,12 @@ public class Defender extends Sprite implements KeyListener, Runnable
             Sprite.Delay();
             this.Move();
             this.laser.Fire();
+
+            //Blink character if hit
+            if(this.damaged)
+            {
+                this.Blink(2);
+            }
         }
     }
 }
