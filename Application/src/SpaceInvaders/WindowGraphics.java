@@ -6,11 +6,19 @@ import Common.Sprite;
 import Invaders.Invaders;
 import Player.Defender;
 import Invaders.Bomb;
+import Player.Laser;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.scene.media.*;
+import javafx.util.Duration;
 
 public class WindowGraphics extends JPanel implements Runnable
 {
@@ -22,6 +30,8 @@ public class WindowGraphics extends JPanel implements Runnable
 
     private boolean playing = true;
     private String endMessage;
+
+    private MediaPlayer mediaPlayer;
 
     public WindowGraphics(int numRowsInvaders, int numColsInvaders, int numLivesDefender, int bombLimit, int speed)
     {
@@ -36,6 +46,8 @@ public class WindowGraphics extends JPanel implements Runnable
         this.defender = new Defender(numLivesDefender, this.invaders);
         this.barriers = new Barriers();
 
+        //Initialize the static variables
+        Laser.Barriers(this.barriers);
         Bomb.Limit(bombLimit);
         Bomb.Enemy(this.defender);
         Bomb.Barriers(this.barriers);
@@ -44,6 +56,7 @@ public class WindowGraphics extends JPanel implements Runnable
 
         //Make the game visible
         this.setVisible(true);
+        this.PlayMusic();
 
         //Create a List of Threads
         List<Thread> threadList = new ArrayList<Thread>();
@@ -60,6 +73,20 @@ public class WindowGraphics extends JPanel implements Runnable
         }
 
         //Wait for the threads to join?
+    }
+
+    public void PlayMusic()
+    {
+        //Need this JFXPanel to initialize the toolkit to prevent exception thrown!
+        new JFXPanel();
+        String soundPath = "Application/audio/spaceMusic.wav";
+        //Initialize the media aspects for the sound effect
+        Media media = new Media(new File(soundPath).toURI().toString());
+        this.mediaPlayer = new MediaPlayer(media);
+        this.mediaPlayer.setVolume(1);
+        //Loop the music
+        this.mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
+        this.mediaPlayer.play();
     }
 
     public void DrawEndOfGame()
@@ -101,7 +128,11 @@ public class WindowGraphics extends JPanel implements Runnable
             this.invaders.DrawInvaders(graphics, this);
             this.barriers.DrawBarriers(graphics, this);
 
+            //Draw the score and number of lives
+            graphics.drawString("Lives: " + this.defender.NumLives(), 5, 20);
+            //graphics.drawString("Score: " + this.defender.Score().toString(), 430, 20);
         }
+        graphics.drawString("Score: " + this.defender.Score().toString(), 430, 20);
 
         //Cleanup -- ensure that the buffer is up to date and then release resources
         Toolkit.getDefaultToolkit().sync();

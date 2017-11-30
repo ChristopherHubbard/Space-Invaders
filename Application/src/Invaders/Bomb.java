@@ -13,7 +13,7 @@ import java.util.Random;
 public class Bomb extends Sprite
 {
     private static int limit;
-    private final static int HIT_VAL = 5;
+    private final static int HIT_VAL = 0;
 
     private Invader owner;
 
@@ -30,6 +30,7 @@ public class Bomb extends Sprite
     {
         this.owner = owner;
         this.InitializeImage("Application/images/bomb.png", null, null);
+        this.InitializeSound("Application/audio/bombSound.wav", 0.1);
         this.x = x;
         this.y = y;
         this.Visible(false);
@@ -46,6 +47,7 @@ public class Bomb extends Sprite
         {
             //Set this bomb to visible
             this.Visible(true);
+            this.PlaySound();
             this.x = this.owner.X();
             this.y = this.owner.Y();
         }

@@ -1,17 +1,26 @@
 package Common;
 
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.ImageObserver;
 import java.util.concurrent.TimeUnit;
+import java.io.File;
 
-public class Sprite
+public abstract class Sprite
 {
     protected String imagePath;
     private boolean visible;
     protected Image image;
     protected int imageWidth;
     protected int imageHeight;
+
+    protected String soundPath;
+    protected MediaPlayer mediaPlayer;
+    protected Media media;
+    protected double mediaVolume;
 
     protected int x;
     protected int y;
@@ -89,6 +98,18 @@ public class Sprite
         this.imageHeight = this.image.getHeight(heightObserver);
     }
 
+    protected void InitializeSound(String soundPath, double volume)
+    {
+        //Need this JFXPanel to initialize the toolkit to prevent exception thrown!
+        new JFXPanel();
+        //Initialize the media aspects for the sound effect
+        this.mediaVolume = volume;
+        this.soundPath = soundPath;
+        this.media = new Media(new File(this.soundPath).toURI().toString());
+        this.mediaPlayer = new MediaPlayer(this.media);
+        this.mediaPlayer.setVolume(this.mediaVolume);
+    }
+
     public boolean Collision(Sprite sprite)
     {
         //Check if the two sprites have collided
@@ -100,6 +121,19 @@ public class Sprite
         if(this.visible)
         {
             graphics.drawImage(this.image, this.x, this.y, observer);
+        }
+    }
+
+    public void PlaySound()
+    {
+        try
+        {
+            this.InitializeSound(this.soundPath, this.mediaVolume);
+            this.mediaPlayer.play();
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
         }
     }
 

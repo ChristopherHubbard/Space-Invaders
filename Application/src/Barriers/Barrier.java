@@ -39,7 +39,7 @@ public class Barrier
         {
             for(int j = 0; j < 4; j++)
             {
-                BarrierBlock block = new BarrierBlock(startX + 12 * i, startY + 15 * j);
+                BarrierBlock block = new BarrierBlock(startX + 11 * i, startY + 11 * j);
                 this.barrierBlocks.add(block);
             }
         }

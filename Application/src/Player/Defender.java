@@ -17,16 +17,35 @@ public class Defender extends Sprite implements KeyListener, Runnable
     private final int START_Y = 380;
 
     //Number of lives for the defender (selected in menu)
-    private int numLives;
+    private Integer numLives;
+
+    //Score for the game
+    private static Integer score = 0;
+
     //Laser for the Defender to fire
     private Laser laser;
+
+    public Integer NumLives()
+    {
+        return this.numLives;
+    }
+
+    public static Integer Score()
+    {
+        return Defender.score;
+    }
+
+    public static void Score(Integer score)
+    {
+        Defender.score = score;
+    }
 
     public Laser Laser()
     {
         return this.laser;
     }
 
-    public Defender(int numLives, Invaders invaders)
+    public Defender(Integer numLives, Invaders invaders)
     {
         this.InitializeImage("Application/images/defender.png", null, null);
         this.numLives = numLives;
@@ -49,6 +68,8 @@ public class Defender extends Sprite implements KeyListener, Runnable
         if(this.numLives > 0)
         {
             this.damaged = true;
+            this.Blink(1);
+
         }
     }
 
@@ -87,16 +108,16 @@ public class Defender extends Sprite implements KeyListener, Runnable
     public void keyPressed(KeyEvent e)
     {
         //Move in the appropriate direction
-        if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A)
+        if(this.Visible() && (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A))
         {
             this.speed = -2;
         }
-        else if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D)
+        else if(this.Visible() && (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D))
         {
             this.speed = 2;
         }
         //Check to see if the laser is firing
-        else if(!this.laser.Visible())
+        else if(this.Visible() && !this.laser.Visible())
         {
             this.laser.KeyPressed(e, this.x, this.y);
         }
@@ -123,10 +144,10 @@ public class Defender extends Sprite implements KeyListener, Runnable
             this.laser.Fire();
 
             //Blink character if hit
-            if(this.damaged)
-            {
-                this.Blink(2);
-            }
+            //if(this.damaged)
+            //{
+                //this.Blink(2);
+            //}
         }
     }
 }

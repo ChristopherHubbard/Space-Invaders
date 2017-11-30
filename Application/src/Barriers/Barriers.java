@@ -20,7 +20,7 @@ public class Barriers
         this.barriers = new ArrayList<Barrier>();
         for(int i = 0; i < 3; i++)
         {
-            Barrier barrier = new Barrier(150 * i + 50, 250);
+            Barrier barrier = new Barrier(150 * i + 75, 250);
             this.barriers.add(barrier);
         }
     }
